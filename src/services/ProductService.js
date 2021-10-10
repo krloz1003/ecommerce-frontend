@@ -5,11 +5,11 @@ class ProductService {
     return http.get("/api/products");
   }
 
-  /*get(id) {
-    return http.get(`/tutorials/${id}`);
+  get(slug) {
+    return http.get(`/api/product/${slug}`);
   }
 
-  create(data) {
+  /*create(data) {
     return http.post("/tutorials", data);
   }
 

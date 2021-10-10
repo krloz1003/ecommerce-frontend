@@ -1,7 +1,7 @@
 <template>
 	<v-row dense>
 		<v-col :cols="12" >    
-			<v-card class="mx-auto my-12" max-width="374">
+			<v-card :loading="loading" class="mx-auto my-12" max-width="374">
 				<template slot="progress">
 					<v-progress-linear
 						color="deep-purple"
@@ -13,7 +13,7 @@
 					height="150"
 					src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
 				></v-img>
-				<v-card-title>{{ row.name }}</v-card-title>
+				<v-card-title>{{ product.name }}</v-card-title>
 				<v-card-text>
 					<v-row
 						align="center"
@@ -21,9 +21,9 @@
 					>
 					</v-row>
 					<div class="my-4 text-subtitle-1">
-						$ {{ row.price }}
+						$ {{ product.price }}
 					</div>
-					<div>{{ row.description }}</div>
+					<div>{{ product.description }}</div>
 				</v-card-text>
 
 				<v-divider class="mx-4"></v-divider>
@@ -31,9 +31,6 @@
 				<v-card-actions>
 					<v-btn color="success" @click="reserve" >
 						ADD TO CAR
-					</v-btn>
-					<v-btn color="success" @click="reserve" >
-						Info
 					</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -46,23 +43,24 @@
 	export default {
 		name: 'product-detail',
 		mounted() {			
-			//this.getDetail();
+			this.getDetail(this.$route.params.slug)
 		},
 		data: () => ({
 			loading: false,
 			selection: 1,
-			rows: []
+			product: []
 		}),
 		methods: {
 			reserve () {
 				this.loading = true
 				setTimeout(() => (this.loading = false), 2000)
 			},
-			getDetail(){
-				Productservice.getAll()
+			getDetail(slug){
+				this.loading = true
+				Productservice.get(slug)
 				.then(res => {
-					console.log(res);
-					this.rows = res.data;
+					this.product = res.data;
+					this.loading = false
 				});
 			},
 		}

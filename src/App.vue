@@ -29,7 +29,7 @@
 
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" >
+        <v-btn icon v-bind="attrs" v-on="on" to="/" >
           <v-icon>storefront</v-icon>
         </v-btn>                
           </template>
@@ -37,8 +37,8 @@
       </v-tooltip>      
       
       <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" >
+          <template v-slot:activator="{ on, attrs }" >
+        <v-btn icon v-bind="attrs" v-on="on" :to="'/about'">
           <v-icon>shopping_bag</v-icon>
         </v-btn>                
           </template>
@@ -56,7 +56,7 @@
 
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" >
+        <v-btn icon v-bind="attrs" v-on="on" to="/users" >
           <v-icon>people</v-icon>
         </v-btn>                
           </template>

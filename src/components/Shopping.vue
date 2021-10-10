@@ -32,7 +32,7 @@
 					<v-btn color="success" @click="reserve" >
 						ADD TO CAR
 					</v-btn>
-					<v-btn color="success" @click="reserve" >
+					<v-btn color="success" :to="'/product/'+row.slug" >
 						Info
 					</v-btn>
 				</v-card-actions>
@@ -61,7 +61,6 @@
 			getData(){
 				Productservice.getAll()
 				.then(res => {
-					console.log(res);
 					this.rows = res.data;
 				});
 			},
