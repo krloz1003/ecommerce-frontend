@@ -22,7 +22,7 @@
 					<td>{{ row.name }}</td>
 					<td>
 						<div class="my-4 text-subtitle-1">
-							$  {{ row.price }}
+							{{ row.price | currency }}
 						</div>
 					</td>
 					<td>						
@@ -38,7 +38,7 @@
 					</td>
 					<td>
 						<div class="my-4 text-subtitle-1">
-							$  {{ row.total }}
+							{{ row.total | currency }}
 						</div>				
 					</td>
 				</tr>

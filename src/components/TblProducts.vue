@@ -28,6 +28,9 @@
 			:items-per-page="5"
 			class="elevation-1"
 		>
+			<template v-slot:item.price="{ item }">
+				{{ item.price | currency }}
+			</template>
 			<template v-slot:item.status="{ item }">
 				<v-chip :color="getColor(item.status)" dark x-small >
 					{{ (item.status)? 'ENABLED' : 'DISABLED' }}

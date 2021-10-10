@@ -21,7 +21,7 @@
 					>
 					</v-row>
 					<div class="my-4 text-subtitle-1">
-						$ {{ row.price }}
+						{{ row.price | currency  }}
 					</div>
 					<div>{{ row.description }}</div>
 				</v-card-text>
