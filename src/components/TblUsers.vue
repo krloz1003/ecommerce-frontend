@@ -3,7 +3,7 @@
 	<v-col cols="12">
 		<v-card>
 			<v-card-title>
-				<v-btn tile color="success" @click="create()">
+				<v-btn tile color="success" @click="$emit('formUserShow', true)">
 					<v-icon left>
 						add
 					</v-icon>
@@ -28,17 +28,10 @@
 			:items-per-page="5"
 			class="elevation-1"
 		>
-			<template v-slot:item.status="{ item }">
-				<v-chip :color="getColor(item.status)" dark x-small >
-					{{ (item.status)? 'ENABLED' : 'DISABLED' }}
-				</v-chip>
+			<template v-slot:item.created_at="{ item }">
+				{{ getFormatDate(item) }}
 			</template>
 			<template v-slot:item.actions="{ item }">
-				<v-icon
-					small
-					@click="editStatus(item)"
-				>autorenew
-				</v-icon>
 				<v-icon
 					small
 					class="mr-2"
@@ -55,16 +48,18 @@
 		</v-data-table>
 		<cmp-confirmation />
 		<cmp-toas />
-		<form-product />
+		<form-user />
 	</v-col>
 </v-row>
 </template>
 <script>
-import ProductService from "../services/ProductService";
+import moment from 'moment'
+
+import UserService from "../services/UserService";
 
 import CmpConfirmation from "./CmpConfirmation";
 import CmpToas from "./CmpToas";
-import FormProduct from "./FormProduct"
+import FormUser from "./FormUser"
 
 export default {
 	mounted() {			
@@ -73,12 +68,12 @@ export default {
 			if(res.type == "UPDATE") this.update(res.data);
 			if(res.type == "DELETE") this.destroy(res.data);
 		});
-		this.$root.$on('getProducts',() => this.getData());
+		this.$root.$on('getUsers',() => this.getData());
 	},
 	components: {	
 		CmpConfirmation,
 		CmpToas,
-		FormProduct
+		FormUser
 	},
 	data: () => ({
 		selection: 1,
@@ -90,16 +85,15 @@ export default {
 				value: 'id',
 			},
 			{ text: 'Name', value: 'name' },
-			{ text: 'Description', value: 'description' },
-			{ text: 'Price ($)', value: 'price' },
-			{ text: 'Status', value: 'status' },
+			{ text: 'E-mail', value: 'email' },
+			{ text: 'Created', value: 'created_at' },
 			{ text: 'Actions', value: 'actions', sortable: false  },
 		],
 		rows: [],
 	}),
 	methods: {
 		getData(){
-			ProductService.getAll()
+			UserService.getAll()
 			.then(response => {
 				this.rows = response.data;
 			});
@@ -107,35 +101,18 @@ export default {
 		getColor(row){
 			return (row)? 'green' : 'red';
 		},
-		create(){			
-			this.$emit('formProductShow', true);
+		getFormatDate(date, format = 'MMMM Do YYYY, h:mm:ss a'){
+			return moment(date).format(format)
 		},		
-		store(row){
-			ProductService.store(row)
-			.then(response => {
-				console.log(response);					
-			});			
-		},		
-		editStatus(row) {
-			let message = "¿Are you sure to updated the status ?"
-			this.$emit('confirmationShow', {type: 'UPDATE', message: message, data: { id: row.id, params: { status: !row.status }}});
-		},
 		edit(row) {
-			this.$emit('formProductEdit', row.slug);
-		},
-		update(row){
-			ProductService.update(row.id, row.params)
-			.then(response => {
-				this.getData();
-				this.$emit('snackbarShow', response);
-			});
+			this.$emit('formUserEdit', row.id);
 		},
 		deleting(row) {
 			let message = "¿Are you sure to deleted the product?"
 			this.$emit('confirmationShow', {type: 'DELETE', message: message, data: { id: row.id }});
 		},
 		destroy(row){
-			ProductService.delete(row.id)
+			UserService.delete(row.id)
 			.then(response => {
 				this.getData();
 				this.$emit('snackbarShow', response);
