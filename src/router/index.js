@@ -13,9 +13,13 @@ const routes = [{
     name: 'HelloWorld',
     component: () => import("../components/DetailProduct")
   }, {
+    path: '/products',
+    name: 'Products',
+    component: () => import('../components/TblProducts')
+  }, {
     path: '/users',
     name: 'Users',
-    component: () => import('../views/About.vue')
+    component: () => import('../components/TblUsers')
   }, {
     path: '/about',
     name: 'About',

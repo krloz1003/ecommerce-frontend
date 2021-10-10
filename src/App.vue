@@ -38,7 +38,7 @@
       
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }" >
-        <v-btn icon v-bind="attrs" v-on="on" :to="'/about'">
+        <v-btn icon v-bind="attrs" v-on="on" :to="'/products'">
           <v-icon>shopping_bag</v-icon>
         </v-btn>                
           </template>

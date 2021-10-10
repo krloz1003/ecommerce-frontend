@@ -9,25 +9,18 @@ class ProductService {
     return http.get(`/api/product/${slug}`);
   }
 
-  /*create(data) {
-    return http.post("/tutorials", data);
+  store(data) {
+    return http.post("/api/product", data);
   }
 
   update(id, data) {
-    return http.put(`/tutorials/${id}`, data);
+    return http.put(`/api/product/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/tutorials/${id}`);
+    return http.delete(`/api/product/${id}`);
   }
 
-  deleteAll() {
-    return http.delete(`/tutorials`);
-  }
-
-  findByTitle(title) {
-    return http.get(`/tutorials?title=${title}`);
-  }*/
 }
 
 export default new ProductService();
