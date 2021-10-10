@@ -6,6 +6,10 @@ Vue.use(VueRouter)
 
 const routes = [{
     path: '/',
+    name: 'ProductsCatalog',    
+    component: () => import("../components/ProductsCatalog")
+  }, {
+    path: '/shopping',
     name: 'Shopping',    
     component: () => import("../components/Shopping")
   }, {

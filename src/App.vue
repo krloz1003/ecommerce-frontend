@@ -46,13 +46,15 @@
       </v-tooltip>
 
       <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
-          <v-icon>shopping_cart</v-icon>
-        </v-btn>                
-          </template>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on" to="/shopping">
+              <v-badge :content="$store.getters.shopingCount" color="black" >
+                <v-icon>shopping_cart</v-icon>
+              </v-badge> 
+            </v-btn>                         
+        </template>
           <span>Cart</span>
-      </v-tooltip>
+      </v-tooltip>             
 
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
