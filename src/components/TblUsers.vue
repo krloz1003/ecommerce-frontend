@@ -65,8 +65,7 @@ export default {
 	mounted() {			
 		this.getData();
 		this.$root.$on('dialogConfirmation',(res) => {
-			if(res.type == "UPDATE") this.update(res.data);
-			if(res.type == "DELETE") this.destroy(res.data);
+			if(res.type == "UserDelete") this.destroy(res.data);
 		});
 		this.$root.$on('getUsers',() => this.getData());
 	},
@@ -109,7 +108,7 @@ export default {
 		},
 		deleting(row) {
 			let message = "¿Are you sure to deleted the product?"
-			this.$emit('confirmationShow', {type: 'DELETE', message: message, data: { id: row.id }});
+			this.$emit('confirmationShow', {type: 'UserDelete', message: message, data: { id: row.id }});
 		},
 		destroy(row){
 			UserService.delete(row.id)

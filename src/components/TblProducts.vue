@@ -70,8 +70,8 @@ export default {
 	mounted() {			
 		this.getData();
 		this.$root.$on('dialogConfirmation',(res) => {
-			if(res.type == "UPDATE") this.update(res.data);
-			if(res.type == "DELETE") this.destroy(res.data);
+			if(res.type == "ProductUpdate") this.update(res.data);
+			if(res.type == "ProductDelete") this.destroy(res.data);
 		});
 		this.$root.$on('getProducts',() => this.getData());
 	},
@@ -118,7 +118,7 @@ export default {
 		},		
 		editStatus(row) {
 			let message = "¿Are you sure to updated the status ?"
-			this.$emit('confirmationShow', {type: 'UPDATE', message: message, data: { id: row.id, params: { status: !row.status }}});
+			this.$emit('confirmationShow', {type: 'ProductUpdate', message: message, data: { id: row.id, params: { status: !row.status }}});
 		},
 		edit(row) {
 			this.$emit('formProductEdit', row.slug);
@@ -132,7 +132,7 @@ export default {
 		},
 		deleting(row) {
 			let message = "¿Are you sure to deleted the product?"
-			this.$emit('confirmationShow', {type: 'DELETE', message: message, data: { id: row.id }});
+			this.$emit('confirmationShow', {type: 'ProductDelete', message: message, data: { id: row.id }});
 		},
 		destroy(row){
 			ProductService.delete(row.id)
