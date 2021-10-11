@@ -9,6 +9,8 @@ export default new Vuex.Store({
   },
   getters:{
     shopingCount: state => state.shoping.length,
+    shopingAmount: state => state.shoping.reduce((sum, prev) => sum + prev.amount, 0),
+    shopingTotal: state => state.shoping.reduce((sum, prev) => sum + prev.total, 0)
   },
   mutations: {
     INSERT_SHOPING(state, data) {
