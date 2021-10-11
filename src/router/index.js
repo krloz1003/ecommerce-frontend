@@ -14,12 +14,22 @@ const routes = [{
     component: () => import("../components/Shopping")
   }, {
     path:'/product/:slug',
-    name: 'HelloWorld',
+    name: 'ProductDetail',
     component: () => import("../components/DetailProduct")
   }, {
     path: '/products',
     name: 'Products',
-    component: () => import('../components/TblProducts')
+    component: () => import('../components/TblProducts'),
+    beforeEnter: (to, from, next) => {
+      // Is the user name not null
+      console.log(this.$store.state.token);
+      if(this.$store.state.token) {
+        next() // Take you to /chat
+      } else {
+          // If params.name is blank or in your case, does not have permission, redirect back to the welcome page
+        next({ name: 'ProductsCatalog' }) 
+      }
+    }
   }, {
     path: '/users',
     name: 'Users',

@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    shoping:[]
+    shoping:[],
+    token: localStorage.getItem('access_token') || null
   },
   getters:{
     shopingCount: state => state.shoping.length,
@@ -22,8 +23,10 @@ export default new Vuex.Store({
     DECREMENT_AMOUNT(state, data){
       let row = (state.shoping.find(row => row.id == data.id))
       console.log(row)
+    },
+    HANDLE_TOKEN(state, data){
+      state.token = data;
     }
-
   },
   actions: {
     async insertShoping({state, commit}, payload){      
@@ -45,6 +48,11 @@ export default new Vuex.Store({
       payload.rows[index]['amount'] = (payload.rows[index]['amount'] <= 1)? 1 : payload.rows[index]['amount'] - 1
       payload.rows[index]['total']  = payload.rows[index]['amount'] * payload.rows[index]['price']
       commit('SET_SHOPING', payload.rows);
+    },
+    async getToken({commit}, payload){
+      const token = payload.data.access_token
+      localStorage.setItem('access_token', token)
+      commit('HANDLE_TOKEN', token);
     }
   },
   modules: {

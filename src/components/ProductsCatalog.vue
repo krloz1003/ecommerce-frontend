@@ -41,7 +41,7 @@
 	</v-row>	
 </template>
 <script>
-	import Productservice from "../services/ProductService";
+	import ProductService from "../services/ProductService";
 
 	export default {
 		name: 'products-list',
@@ -59,7 +59,7 @@
 				setTimeout(() => (this.loading = false), 2000)
 			},
 			getData(){
-				Productservice.getAll()
+				ProductService.getAll()
 				.then(res => {
 					this.rows = res.data;
 				});

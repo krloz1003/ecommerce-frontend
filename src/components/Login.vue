@@ -39,6 +39,8 @@
 
 </template>
 <script>
+import AuthService from "../services/AuthService";
+
 export default {
 	name: 'Login',
 	data: () => ({
@@ -51,12 +53,12 @@ export default {
 		rules: {
 			name: [
 				v => !!v || 'Username is required',
-				v => v.length >= 7 || 'The Username must be at least 7 characters.',
-				v => v.length <= 50 || 'The Username may not be greater than 50 characters.',
+				//v => v.length >= 7 || 'The Username must be at least 7 characters.',
+				//v => v.length <= 50 || 'The Username may not be greater than 50 characters.',
 			],
 			password: [
 				v => !!v || 'Password is required',
-				v => v.length >= 8 || 'The Password must be at least 8 characters.',
+				//v => v.length >= 8 || 'The Password must be at least 8 characters.',
 			]			
 		}		
 	}),	
@@ -64,8 +66,17 @@ export default {
 		source: String,
 	},
 	methods: {
-		onSubmit(){
-			console.log('Preprando los datos');
+		onSubmit(){			
+			if(!this.valid) return false;
+			//console.log(this.form);
+			
+			AuthService.login(this.form)	
+			.then(res => {
+				this.form.name = ''
+				this.form.password = ''
+				console.log(res)
+				this.$store.dispatch('getToken', res);
+			});
 		}
 	}
 };

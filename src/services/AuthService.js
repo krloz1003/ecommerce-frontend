@@ -1,11 +1,11 @@
 import http from "../http-common";
 
 class AuthService {
-  /*getAll() {
-    return http.get("/api/products");
+  login(data) {
+    return http.post("/api/auth/login", data);
   }
 
-  get(slug) {
+  /*get(slug) {
     return http.get(`/api/product/${slug}`);
   }
 
