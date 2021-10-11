@@ -34,15 +34,6 @@
         </v-btn>                
           </template>
           <span>Shop</span>
-      </v-tooltip>      
-      
-      <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }" >
-        <v-btn icon v-bind="attrs" v-on="on" :to="'/products'">
-          <v-icon>shopping_bag</v-icon>
-        </v-btn>                
-          </template>
-          <span>Products</span>
       </v-tooltip>
 
       <v-tooltip bottom>
@@ -54,7 +45,16 @@
             </v-btn>                         
         </template>
           <span>Cart</span>
-      </v-tooltip>             
+      </v-tooltip>       
+      
+      <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }" >
+        <v-btn icon v-bind="attrs" v-on="on" :to="'/products'">
+          <v-icon>shopping_bag</v-icon>
+        </v-btn>                
+          </template>
+          <span>Products</span>
+      </v-tooltip>            
 
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -64,6 +64,15 @@
           </template>
           <span>Users</span>
       </v-tooltip>
+
+      <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on" to="/login">
+          <v-icon>login</v-icon>
+        </v-btn>                
+          </template>
+          <span>Login</span>
+      </v-tooltip>          
 
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">

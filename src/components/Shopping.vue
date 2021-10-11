@@ -15,7 +15,7 @@
 							Piece
 						</th>
 						<th class="text-left">
-							Total
+							Subtotal
 						</th>			
 					</tr>
 				</thead>
