@@ -16,7 +16,10 @@
 						</th>
 						<th class="text-left">
 							Subtotal
-						</th>			
+						</th>
+						<th class="text-left">
+							Remove
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,6 +45,11 @@
 							<div class="my-4 text-subtitle-1">
 								{{ row.total | currency }}
 							</div>				
+						</td>
+						<td>
+							<v-btn icon color="red" @click="$store.dispatch('removeShoping', row)">
+								<v-icon>close</v-icon>
+							</v-btn>
 						</td>
 					</tr>
 				</tbody>

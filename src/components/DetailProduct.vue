@@ -29,7 +29,7 @@
 				<v-divider class="mx-4"></v-divider>
 
 				<v-card-actions>
-					<v-btn color="success" @click="reserve" >
+					<v-btn color="success" @click="$store.dispatch('insertShoping', product)" >
 						ADD TO CAR
 					</v-btn>
 				</v-card-actions>

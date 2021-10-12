@@ -41,6 +41,10 @@ export default new Vuex.Store({
       payload['total']  = payload['amount'] * payload['price'];
       if(!row) commit('INSERT_SHOPING', payload)      
     },
+    async removeShoping({state, commit}, payload){
+      let rows = state.shoping.filter((row) => row.id != payload.id)
+      commit('SET_SHOPING', rows)      
+    },  
     async increment ({commit}, payload){
       commit('SET_SHOPING', []);
       let index = payload.rows.findIndex(i => i.id === payload.id);

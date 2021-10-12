@@ -29,7 +29,7 @@
 				<v-divider class="mx-4"></v-divider>
 
 				<v-card-actions>
-					<v-btn color="success" @click="addCart(row)" >
+					<v-btn color="success" @click="$store.dispatch('insertShoping', row)" >
 						ADD TO CAR
 					</v-btn>
 					<v-btn color="success" :to="'/product/'+row.slug" >
@@ -64,9 +64,6 @@
 					this.rows = res.data;
 				});
 			},
-			addCart(row){
-				this.$store.dispatch('insertShoping', row)
-			}
 		}
 	}
 </script>

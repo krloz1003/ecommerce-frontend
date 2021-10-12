@@ -29,9 +29,9 @@
 
       <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" to="/" >
-          <v-icon>storefront</v-icon>
-        </v-btn>                
+            <v-btn icon v-bind="attrs" v-on="on" to="/" >
+              <v-icon>storefront</v-icon>
+            </v-btn>                
           </template>
           <span>Shop</span>
       </v-tooltip>
@@ -49,18 +49,18 @@
       
       <v-tooltip bottom v-if="$store.state.role === 'admin'">
           <template v-slot:activator="{ on, attrs }" >
-        <v-btn icon v-bind="attrs" v-on="on" :to="'/products'">
-          <v-icon>shopping_bag</v-icon>
-        </v-btn>                
+            <v-btn icon v-bind="attrs" v-on="on" :to="'/products'">
+              <v-icon>shopping_bag</v-icon>
+            </v-btn>                
           </template>
           <span>Products</span>
       </v-tooltip>            
 
       <v-tooltip bottom v-if="$store.state.role === 'admin'">
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" to="/users" >
-          <v-icon>people</v-icon>
-        </v-btn>                
+            <v-btn icon v-bind="attrs" v-on="on" to="/users" >
+              <v-icon>people</v-icon>
+            </v-btn>                
           </template>
           <span>Users</span>
       </v-tooltip>
@@ -69,23 +69,23 @@
 
       <v-tooltip bottom v-if="$store.state.role != 'admin'">
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" to="/login">
-          <v-icon>login</v-icon>
-        </v-btn>                
+            <v-btn icon v-bind="attrs" v-on="on" to="/login">
+              <v-icon>login</v-icon>
+            </v-btn>                
           </template>
           <span>Login</span>
       </v-tooltip>
 
       <v-tooltip bottom v-if="$store.state.role === 'admin'">
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" @click.prevent="logout()" >
-          <v-icon>logout</v-icon>
-        </v-btn>                
+            <v-btn icon v-bind="attrs" v-on="on" @click.prevent="logout()" >
+              <v-icon>logout</v-icon>
+            </v-btn>                
           </template>
           <span>Logout</span>
       </v-tooltip> 
-    </v-app-bar>
 
+    </v-app-bar>
     <v-main>
       <router-view/>
     </v-main>

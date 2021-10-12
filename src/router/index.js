@@ -22,7 +22,7 @@ const routes = [{
     component: () => import('../components/TblProducts'),
     meta: {
       requiresAuth: true,
-      adminAuth: true,
+      //adminAuth: true,
     }
   }, {
     path: '/users',
@@ -30,7 +30,7 @@ const routes = [{
     component: () => import('../components/TblUsers'),
     meta: {
       requiresAuth: true,
-      adminAuth: true,
+      //adminAuth: true,
     }
   }, {
     path: '/login',
@@ -53,24 +53,30 @@ const router = new VueRouter({
 export default router
 
 
-/*router.beforeEach((to, from, next) => {
-  let role  = localStorage.getItem ('role');
-  let accessToken = localStorage.getItem('accessToken');
-  if (to.meta.requiresAuth) {
+router.beforeEach((to, from, next) => {
+  //const role  = localStorage.getItem ('role');
+  const accessToken = localStorage.getItem('access_token');
+  
+  if(!to.meta.requiresAuth) return next()
+    if(accessToken) return next()
+      return router.push({path: '/'}).catch(() => {})
+  
+ 
+ /*if (to.meta.requiresAuth) {
     if (!role || !accessToken) {
-      router.push({path: '/'});
+      router.push({path: '/'}).catch(() => {})
     } else {
       if (to.meta.adminAuth) {
         if (role === "admin") {
           return next();
         } else {
-          router.push({path: '/'});
+          router.push({path: '/'}).catch(() => {})
         }
       }
     }
   } else {
     return next();
-  }
+  }*/
 
 
-});*/
+});
