@@ -38,6 +38,7 @@ export default {
 	},
 	methods: {
 		confirmationShow(res){
+			console.log(res);
 			this.show = true;
 			this.message = res.message;
 			this.data 	= res;

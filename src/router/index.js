@@ -15,25 +15,23 @@ const routes = [{
   }, {
     path:'/product/:slug',
     name: 'ProductDetail',
-    component: () => import("../components/DetailProduct")
+    component: () => import("../components/DetailProduct"),
   }, {
     path: '/products',
     name: 'Products',
     component: () => import('../components/TblProducts'),
-    beforeEnter: (to, from, next) => {
-      // Is the user name not null
-      console.log(this.$store.state.token);
-      if(this.$store.state.token) {
-        next() // Take you to /chat
-      } else {
-          // If params.name is blank or in your case, does not have permission, redirect back to the welcome page
-        next({ name: 'ProductsCatalog' }) 
-      }
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
     }
   }, {
     path: '/users',
     name: 'Users',
-    component: () => import('../components/TblUsers')
+    component: () => import('../components/TblUsers'),
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
+    }
   }, {
     path: '/login',
     name: 'Login',
@@ -53,3 +51,26 @@ const router = new VueRouter({
 })
 
 export default router
+
+
+/*router.beforeEach((to, from, next) => {
+  let role  = localStorage.getItem ('role');
+  let accessToken = localStorage.getItem('accessToken');
+  if (to.meta.requiresAuth) {
+    if (!role || !accessToken) {
+      router.push({path: '/'});
+    } else {
+      if (to.meta.adminAuth) {
+        if (role === "admin") {
+          return next();
+        } else {
+          router.push({path: '/'});
+        }
+      }
+    }
+  } else {
+    return next();
+  }
+
+
+});*/

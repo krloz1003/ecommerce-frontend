@@ -4,6 +4,10 @@ class AuthService {
   login(data) {
     return http.post("/api/auth/login", data);
   }
+  
+  logout() {
+    return http.get("/api/auth/logout");
+  }
 
   /*get(slug) {
     return http.get(`/api/product/${slug}`);

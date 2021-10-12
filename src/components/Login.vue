@@ -74,8 +74,8 @@ export default {
 			.then(res => {
 				this.form.name = ''
 				this.form.password = ''
-				console.log(res)
 				this.$store.dispatch('getToken', res);
+				this.$router.push('/');
 			});
 		}
 	}

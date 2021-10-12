@@ -47,7 +47,7 @@
           <span>Cart</span>
       </v-tooltip>       
       
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="$store.state.role === 'admin'">
           <template v-slot:activator="{ on, attrs }" >
         <v-btn icon v-bind="attrs" v-on="on" :to="'/products'">
           <v-icon>shopping_bag</v-icon>
@@ -56,7 +56,7 @@
           <span>Products</span>
       </v-tooltip>            
 
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="$store.state.role === 'admin'">
           <template v-slot:activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on" to="/users" >
           <v-icon>people</v-icon>
@@ -65,24 +65,25 @@
           <span>Users</span>
       </v-tooltip>
 
-      <v-tooltip bottom>
+      <v-spacer></v-spacer>
+
+      <v-tooltip bottom v-if="$store.state.role != 'admin'">
           <template v-slot:activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on" to="/login">
           <v-icon>login</v-icon>
         </v-btn>                
           </template>
           <span>Login</span>
-      </v-tooltip>          
+      </v-tooltip>
 
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="$store.state.role === 'admin'">
           <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
+        <v-btn icon v-bind="attrs" v-on="on" @click.prevent="logout()" >
           <v-icon>logout</v-icon>
         </v-btn>                
           </template>
           <span>Logout</span>
-      </v-tooltip>      
-
+      </v-tooltip> 
     </v-app-bar>
 
     <v-main>
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+import AuthService from "./services/AuthService";
 
 export default {
   name: 'App',
@@ -99,5 +101,14 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    logout(){      
+      AuthService.logout()
+      .then((res) => {
+        this.$store.dispatch('destroyToken', res);
+        this.$router.push('/')
+      });
+    }
+  }
 };
 </script>
