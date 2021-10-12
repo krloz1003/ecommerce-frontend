@@ -3,12 +3,22 @@
 	<v-main fluid fill-height>
 		<v-layout align-center justify-center>
 			<v-flex xs12 sm8 md4>
-				<v-card class="elevation-12">
+				<v-alert text prominent type="error" icon="report_problem" v-show="errors.message">
+					{{ errors.message }}
+				</v-alert>					
+				<v-card class="elevation-12" :loading="loading">
+					<template slot="progress">
+						<v-progress-linear
+							color="deep-purple"
+							height="10"
+							indeterminate
+						></v-progress-linear>
+					</template>					
 					<v-toolbar dark color="primary">
 						<v-toolbar-title>Login</v-toolbar-title>
 					</v-toolbar>
 					<v-card-text>
-						<v-form v-model="valid">
+						<v-form ref="form" v-model="valid" lazy-validation>
 							<v-text-field
 								prepend-icon="person"
 								name="login"
@@ -30,9 +40,9 @@
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="primary" @click.prevent="onSubmit()">Login</v-btn>
+						<v-btn color="primary" :loading="loading" @click.prevent="onSubmit()">Login</v-btn>
 					</v-card-actions>
-				</v-card>
+				</v-card>			
 			</v-flex>
 		</v-layout>
 	</v-main>
@@ -46,6 +56,7 @@ export default {
 	data: () => ({
 		show: false,
 		valid: false,
+		loading: false,
 		form: {
 			name: '',
 			password: '',
@@ -60,13 +71,16 @@ export default {
 				v => !!v || 'Password is required',
 				//v => v.length >= 8 || 'The Password must be at least 8 characters.',
 			]			
-		}		
+		},
+		errors: {}		
 	}),	
 	props: {
 		source: String,
 	},
 	methods: {
-		onSubmit(){			
+		onSubmit(){	
+		this.loading = true;		
+			this.$refs.form.validate()
 			if(!this.valid) return false;
 			//console.log(this.form);
 			
@@ -76,6 +90,11 @@ export default {
 				this.form.password = ''
 				this.$store.dispatch('getToken', res);
 				this.$router.push('/');
+				this.loading = false;
+			})				
+			.catch((res) => {
+				this.errors = (res.response != undefined)? res.response.data : [];
+				this.loading = false;
 			});
 		}
 	}

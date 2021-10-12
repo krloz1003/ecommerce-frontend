@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let instance = axios.create({
-  baseURL: "http://laravel-ecommerce.test/",
+  baseURL: "http://127.0.0.1:8000/",
   headers: {
     "Content-type": "application/json"
   }
