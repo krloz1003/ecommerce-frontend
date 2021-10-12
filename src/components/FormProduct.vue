@@ -1,13 +1,26 @@
 <template>
  <v-row justify="center">
-	<v-dialog v-model="show" persistent max-width="600px" >
-		<v-card>
+	<v-dialog v-model="show" persistent max-width="600px" >	
+		<v-card :loading="loading">
+			<template slot="progress">
+				<v-progress-linear
+					color="deep-purple"
+					height="10"
+					indeterminate
+				></v-progress-linear>
+			</template>				
 			<v-card-title>
 				<span class="text-h5">New product</span>
 			</v-card-title>
 			<v-card-text>
 				<v-container>
-					<v-form v-model="valid">
+					<v-alert text prominent type="error" icon="report_problem" v-show="errors.message">
+						{{ errors.message }}
+						<span v-for="(rows, index) in errors.errors" :key="index">
+							<p v-for="row in rows" :key="row">{{ row }}</p>
+						</span>
+					</v-alert>		
+					<v-form ref="form" v-model="valid" lazy-validation>
 						<v-row>
 							<v-col cols="12">
 								<v-text-field
@@ -43,7 +56,7 @@
 				<v-btn color="blue darken-1" text @click="show = false" >
 					Close
 				</v-btn>
-				<v-btn color="blue darken-1" text @click="storeItem()" >
+				<v-btn color="blue darken-1" :loading="loading" text @click="storeItem()" >
 					Save
 				</v-btn>
 			</v-card-actions>
@@ -58,6 +71,7 @@ export default {
 	data: () => ({
 		show: false,
 		valid: false,
+		loading: false,
 		form: {
 			id: '',
 			name: '',
@@ -81,7 +95,8 @@ export default {
 				v => v > 0 || 'The price must be between 0 and 999.99.',
 				v => v < 999.99 || 'The price must be between 0 and 999.99.'
 			],
-		}
+		},
+		errors: []
 
 	}),
 	created: function() {
@@ -103,6 +118,8 @@ export default {
 			});
 		},
 		storeItem(){
+			this.loading = true;
+			this.$refs.form.validate()
 			if(!this.valid) return false;
 
 			if(this.form.id){
@@ -114,8 +131,14 @@ export default {
 					this.$root.$emit('getProducts');
 					this.show = false;
 					this.validate = false;
+					this.loading = false;
 					this.$emit('snackbarShow', res);
-				});
+					
+				})
+				.catch((res) => {
+					this.errors = (res.response != undefined)? res.response.data : [];
+					this.loading = false;
+				});				
 			} else {
 				ProductService.store(this.form)	
 				.then(res => {
@@ -125,8 +148,14 @@ export default {
 					this.$root.$emit('getProducts');
 					this.show = false;
 					this.validate = false;
+					this.loading = false;
 					this.$emit('snackbarShow', res);
-				});
+					
+				})
+				.catch((res) => {
+					this.errors = (res.response != undefined)? res.response.data : [];
+					this.loading = false;
+				});				
 			}			
 		}
 	}

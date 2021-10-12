@@ -1,13 +1,19 @@
 <template>
  <v-row justify="center">
-	<v-dialog v-model="show" persistent max-width="600px" >
-		<v-card>
+	<v-dialog v-model="show" persistent max-width="600px" >	
+		<v-card :loading="loading">
 			<v-card-title>
 				<span class="text-h5">New user</span>
 			</v-card-title>
 			<v-card-text>
 				<v-container>
-					<v-form v-model="valid">
+					<v-alert text prominent type="error" icon="report_problem" v-show="errors.message">
+						{{ errors.message }}
+						<span v-for="(rows, index) in errors.errors" :key="index">
+							<p v-for="row in rows" :key="row">{{ row }}</p>
+						</span>
+					</v-alert>							
+					<v-form ref="form" v-model="valid" lazy-validation>
 						<v-row>
 							<v-col cols="12">
 								<v-text-field
@@ -54,7 +60,7 @@
 				<v-btn color="blue darken-1" text @click="show = false" >
 					Close
 				</v-btn>
-				<v-btn color="blue darken-1" text @click="storeItem()" >
+				<v-btn color="blue darken-1" :loading="loading" text @click="storeItem()" >
 					Save
 				</v-btn>
 			</v-card-actions>
@@ -69,6 +75,7 @@ export default {
 	data: () => ({
 		show: false,
 		valid: false,
+		loading: false,
 		form: {
 			id: '',
 			name: '',
@@ -79,7 +86,7 @@ export default {
 		rules: {
 			name: [
 				v => !!v || 'Name is required',
-				v => v.length >= 4 || 'The Name must be at least 7 characters.',
+				v => v.length >= 4 || 'The Name must be at least 4 characters.',
 				v => v.length <= 50 || 'The Name may not be greater than 50 characters.',
 			],
 			email: [
@@ -94,7 +101,8 @@ export default {
 				v => !!v || 'Password confirmation is required',
 				v => v.length >= 8 || 'The Password confirmation must be at least 8 characters.',
 			],			
-		}
+		},
+		errors: []
 	}),
 	created: function() {
 		this.$parent.$on('formUserShow', this.showForm);
@@ -126,6 +134,8 @@ export default {
 			this.validate = false;				
 		},
 		storeItem(){
+			this.loading = true;
+			this.$refs.form.validate()
 			if(!this.valid) return false;
 			if(this.form.id){
 				UserService.update(this.form.id, this.form)
@@ -134,7 +144,12 @@ export default {
 					this.$root.$emit('getUsers');
 					this.show = false;
 					this.$emit('snackbarShow', res);
-				});
+					this.loading = false;
+				})
+				.catch((res) => {
+					this.errors = (res.response != undefined)? res.response.data : [];
+					this.loading = false;
+				});				
 			} else {
 				UserService.store(this.form)	
 				.then(res => {
@@ -142,7 +157,12 @@ export default {
 					this.$root.$emit('getUsers');
 					this.show = false;
 					this.$emit('snackbarShow', res);
-				});
+					this.loading = false;
+				})
+				.catch((res) => {
+					this.errors = (res.response != undefined)? res.response.data : [];
+					this.loading = false;
+				});				
 			}		
 		}
 	}
