@@ -78,11 +78,10 @@ export default {
 		source: String,
 	},
 	methods: {
-		onSubmit(){	
-		this.loading = true;		
+		onSubmit(){					
 			this.$refs.form.validate()
 			if(!this.valid) return false;
-			//console.log(this.form);
+			this.loading = true;
 			
 			AuthService.login(this.form)	
 			.then(res => {

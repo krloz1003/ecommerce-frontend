@@ -117,10 +117,10 @@ export default {
 				this.show = true;
 			});
 		},
-		storeItem(){
-			this.loading = true;
+		storeItem(){			
 			this.$refs.form.validate()
 			if(!this.valid) return false;
+			this.loading = true;
 
 			if(this.form.id){
 				ProductService.update(this.form.id, this.form)

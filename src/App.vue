@@ -107,7 +107,12 @@ export default {
       .then((res) => {
         this.$store.dispatch('destroyToken', res);
         this.$router.push('/')
-      });
+      })
+			.catch((res) => {
+				console.log(res.response);
+        this.errors = (res.response != undefined)? res.response.data : [];
+				
+			});
     }
   }
 };
