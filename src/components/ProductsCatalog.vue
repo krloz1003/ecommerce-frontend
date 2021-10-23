@@ -11,7 +11,7 @@
 				</template>
 				<v-img
 					height="150"
-					src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+					:src="getUrl(row.media)"
 				></v-img>
 				<v-card-title>{{ row.name }}</v-card-title>
 				<v-card-text>
@@ -57,6 +57,9 @@
 			reserve () {
 				this.loading = true
 				setTimeout(() => (this.loading = false), 2000)
+			},
+			getUrl(row){
+				return (row.length > 0)? row[0]['original_url'] : 'https://cdn.vuetifyjs.com/images/cards/cooking.png';
 			},
 			getData(){
 				ProductService.getAll()

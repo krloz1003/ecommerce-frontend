@@ -53,30 +53,10 @@ const router = new VueRouter({
 export default router
 
 
-router.beforeEach((to, from, next) => {
-  //const role  = localStorage.getItem ('role');
+router.beforeEach((to, from, next) => {  
   const accessToken = localStorage.getItem('access_token');
   
   if(!to.meta.requiresAuth) return next()
     if(accessToken) return next()
-      return router.push({path: '/'}).catch(() => {})
-  
- 
- /*if (to.meta.requiresAuth) {
-    if (!role || !accessToken) {
-      router.push({path: '/'}).catch(() => {})
-    } else {
-      if (to.meta.adminAuth) {
-        if (role === "admin") {
-          return next();
-        } else {
-          router.push({path: '/'}).catch(() => {})
-        }
-      }
-    }
-  } else {
-    return next();
-  }*/
-
-
+      return router.push({path: '/'}).catch(() => {})    
 });

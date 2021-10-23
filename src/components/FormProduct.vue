@@ -30,21 +30,31 @@
 									:rules="rules.name"
 									required
 								></v-text-field>
-								</v-col>
-								<v-col cols="12">
+							</v-col>
+							<v-col cols="12">
 									<v-textarea
 										label="Description *"
 										v-model="form.description"
 										:rules="rules.description"
 									></v-textarea>
-								</v-col>
-								<v-col cols="12">
+							</v-col>
+							<v-col cols="12">
 									<v-text-field
 										label="Price*"									
 										required
 										v-model="form.price"
 										:rules="rules.price"
 									></v-text-field>
+							</v-col>
+							<v-col cols="12">
+								<v-file-input									
+									accept="image/png, image/jpeg, image/bmp"
+									placeholder="Picture"
+									prepend-icon="mdi-camera"
+									label="Picture"
+									v-model="form.picture"
+									:rules="rules.picture"
+								></v-file-input>
 							</v-col>
 						</v-row>
 					</v-form>
@@ -76,7 +86,8 @@ export default {
 			id: '',
 			name: '',
 			description: '',
-			price: ''
+			price: '',
+			picture: []
 		},
 		rules: {
 			name: [
@@ -95,6 +106,9 @@ export default {
 				v => v > 0 || 'The price must be between 0 and 999.99.',
 				v => v < 999.99 || 'The price must be between 0 and 999.99.'
 			],
+			picture: [
+				value => !value || value.size < 2000000 || 'Picture size should be less than 2 MB!',
+			]
 		},
 		errors: []
 
@@ -122,8 +136,15 @@ export default {
 			if(!this.valid) return false;
 			this.loading = true;
 
+			const formData = new FormData();
+			formData.append("id", this.form.id );
+			formData.append("name", this.form.name );
+			formData.append("description", this.form.description );
+			formData.append("price", this.form.price );
+			formData.append("picture", this.form.picture );
+
 			if(this.form.id){
-				ProductService.update(this.form.id, this.form)
+				ProductService.update(this.form.id, formData)
 				.then(res => {
 					this.form.name = '';
 					this.form.description = '';
@@ -140,7 +161,7 @@ export default {
 					this.loading = false;
 				});				
 			} else {
-				ProductService.store(this.form)	
+				ProductService.store(formData)	
 				.then(res => {
 					this.form.name = '';
 					this.form.description = '';

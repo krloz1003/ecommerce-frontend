@@ -31,6 +31,13 @@
 			<template v-slot:item.price="{ item }">
 				{{ item.price | currency }}
 			</template>
+			<template v-slot:item.picture="{ item }">				
+				<v-img 
+					v-if="item.media" 
+					:src="getUrl(item.media)"
+					width="50px"
+				></v-img>
+			</template>
 			<template v-slot:item.status="{ item }">
 				<v-chip :color="getColor(item.status)" dark x-small >
 					{{ (item.status)? 'ENABLED' : 'DISABLED' }}
@@ -95,6 +102,7 @@ export default {
 			{ text: 'Name', value: 'name' },
 			{ text: 'Description', value: 'description' },
 			{ text: 'Price ($)', value: 'price' },
+			{ text: 'Picture', value: 'picture' },
 			{ text: 'Status', value: 'status' },
 			{ text: 'Actions', value: 'actions', sortable: false  },
 		],
@@ -109,6 +117,9 @@ export default {
 		},
 		getColor(row){
 			return (row)? 'green' : 'red';
+		},
+		getUrl(row){
+			return (row.length > 0)? row[0]['original_url'] : 'https://cdn.vuetifyjs.com/images/cards/cooking.png';
 		},
 		create(){			
 			this.$emit('formProductShow', true);
